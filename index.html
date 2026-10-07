@@ -43,7 +43,7 @@ try{S=Object.assign(S,JSON.parse(localStorage.getItem('aybay')||'{}'))}catch(e){
 const idb=()=>new Promise((r,j)=>{try{const q=indexedDB.open('aybay',1);q.onupgradeneeded=()=>q.result.createObjectStore('k');q.onsuccess=()=>r(q.result);q.onerror=()=>j()}catch(e){j()}});
 const idbSet=async v=>{try{const d=await idb();d.transaction('k','readwrite').objectStore('k').put(v,'s')}catch(e){}};
 const idbGet=async()=>{try{const d=await idb();return await new Promise(r=>{const q=d.transaction('k').objectStore('k').get('s');q.onsuccess=()=>r(q.result);q.onerror=()=>r()})}catch(e){}};
-const FB={apiKey:"",authDomain:"",projectId:"",appId:""}; // Firebase কনফিগ এখানে বসান
+const FB={apiKey:"AIzaSyDoa0o207iGfnCI2-xzxglSDxOlAamqs4M",authDomain:"aybay-676c9.firebaseapp.com",projectId:"aybay-676c9",appId:"1:917948003695:web:04c78dd29a21c2742ea49a"}; // Firebase কনফিগ এখানে বসান
 let fdb,fu;
 function fbInit(){if(!FB.apiKey||!window.firebase)return;firebase.initializeApp(FB);firebase.auth().onAuthStateChanged(u=>{fu=u;if(!u)return;fdb=firebase.firestore();fdb.doc('users/'+u.uid).get().then(d=>{if(d.exists){const o=JSON.parse(d.data().j);if((o.ts||0)>(S.ts||0)){S=Object.assign(S,o);theme();draw()}else save()}else save()}).catch(()=>{})})}
 const save=()=>{S.ts=Date.now();const j=JSON.stringify(S);if(fdb&&fu)fdb.doc('users/'+fu.uid).set({j}).catch(()=>{});try{localStorage.setItem('aybay',j)}catch(e){}idbSet(j)};
