@@ -128,7 +128,8 @@ function draw(){
 }
 $('#st').onclick=()=>{$('#fm').innerHTML='<b>ব্যাকআপ ও রিস্টোর</b><p class="m">ব্যাকআপ কোড কপি করে WhatsApp/Notes/Drive-এ রাখুন। রিস্টোরে কোড পেস্ট করুন।</p><textarea id="bk" rows="6" style="width:100%;border-radius:12px;padding:8px;background:var(--bg);color:var(--tx);border:1px solid var(--bd)"></textarea><button class="go" id="lg" style="margin-bottom:8px">☁️ Google লগইন (অটো ক্লাউড ব্যাকআপ)</button><button class="go" id="cp" style="margin:8px 0">ব্যাকআপ কোড দেখান/কপি</button><button class="go" id="rs" style="background:var(--exp)">রিস্টোর করুন</button>';
 $('#mo').style.display='flex';
-$('#lg').onclick=()=>{try{firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());$('#lg').textContent='লগইন হচ্ছে...'}catch(e){$('#lg').textContent='Firebase সেট করা হয়নি'}};
+if(typeof fu!='undefined'&&fu)$('#lg').textContent='✅ '+(fu.email||'লগইন আছে');
+$('#lg').onclick=()=>{const b=$('#lg');try{const p=new firebase.auth.GoogleAuthProvider();b.textContent='লগইন হচ্ছে...';firebase.auth().signInWithPopup(p).then(()=>{b.textContent='✅ লগইন সফল'}).catch(e=>{if(['auth/popup-blocked','auth/operation-not-supported-in-this-environment','auth/web-storage-unsupported'].includes(e.code)){firebase.auth().signInWithRedirect(p)}else b.textContent='ত্রুটি: '+e.code})}catch(e){b.textContent='Firebase সেট করা হয়নি'}};
 $('#cp').onclick=()=>{const t=$('#bk');t.value=JSON.stringify(S);t.select();try{navigator.clipboard.writeText(t.value)}catch(e){}};
 $('#rs').onclick=()=>{try{const o=JSON.parse($('#bk').value);if(!o.tx)throw 0;S=Object.assign(S,o);save();theme();draw();$('#mo').style.display='none'}catch(e){$('#rs').textContent='কোডটি সঠিক নয়'}}};
 syncC();repRun();theme();draw();fbInit();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
