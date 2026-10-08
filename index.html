@@ -149,7 +149,7 @@ function draw(){
     if(S.sb!==false)h+=`<input id="sq" class="si" placeholder="🔍 সার্চ..." value="${q}" oninput="q=this.value;draw()">`;
     if(FL.t||FL.c)h+=`<button class="chip" onclick="FL={t:'',c:''};draw()">ফিল্টার চালু ✕</button>`;
     const ds=[...new Set(f.map(x=>x.date))].sort().reverse();
-    h+=ds.length?ds.map(d=>{const g=f.filter(x=>x.date==d);return`<div class="day" style="display:flex;justify-content:space-between"><span>${DN(d)}</span><span>মোট <b class="i">${fmt(SM(g,'i'))}</b> <b class="e">${fmt(SM(g,'e'))}</b></span></div>`+g.slice().reverse().map(x=>`<div class="row ${x.t}"><div><span style="font-size:17px">${x.d}</span><div class="m"><span class="cir ${x.t}">${x.t=='i'?'＋':'－'}</span> ${x.c?x.c+' · ':''}${x.time||''}</div></div><div><b class="${x.t}" style="font-size:18px">${fmt(x.a)}</b> <button class="x" onclick="rowMenu(${x.id})">⋮</button></div></div>`).join('')}).join(''):'<div class="empty">কোনো লেনদেন নেই<br>নিচের + বাটনে চাপুন</div>';
+    h+=ds.length?ds.map(d=>{const g=f.filter(x=>x.date==d);return`<div class="day" style="display:flex;justify-content:space-between"><span>${DN(d)}</span><span>মোট <b class="i">${fmt(SM(g,'i'))}</b> <b class="e">${fmt(SM(g,'e'))}</b></span></div>`+g.slice().reverse().map(x=>`<div class="row ${x.t}"><div><span style="font-size:17px">${x.d}</span><div class="m"><span class="cir ${x.t}">${x.t=='i'?'＋':'－'}</span> <b class="${x.t}">${x.t=='i'?'আয়':'ব্যয়'}</b> · ${x.c?x.c+' · ':''}${x.time||''}</div></div><div><b class="${x.t}" style="font-size:18px">${fmt(x.a)}</b> <button class="x" onclick="rowMenu(${x.id})">⋮</button></div></div>`).join('')}).join(''):'<div class="empty">কোনো লেনদেন নেই<br>নিচের + বাটনে চাপুন</div>';
   }
   if(tab==1){
     DG=grp();
